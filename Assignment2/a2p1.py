@@ -36,6 +36,7 @@ September 2020
 Author: <Your name here>
 """
 
+import util
 def encryptMessage(key:int, message: str):
     raise NotImplementedError()
 
