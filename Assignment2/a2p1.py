@@ -33,15 +33,69 @@
 """
 CMPUT 331 Assignment 2 Student Solution
 September 2020
-Author: <Your name here>
+Author: Christopher Pontikes 1499276
 """
 
-import util
 def encryptMessage(key:int, message: str):
-    raise NotImplementedError()
+    ciphertext = [["" for i in range(len(message))] for j in range(key)]
+
+    row = 0
+    flag = 0
+
+    for i in range(len(message)):
+        ciphertext[row][i] = message[i]
+
+        if flag==0:
+            row+=1
+            if row==key-1:
+                flag = 1
+        else:
+            row-=1
+            if row==0:
+                flag = 0
+
+    ct = []
+    for i in range(key):
+        for j in range(len(message)):
+            ct.append(ciphertext[i][j])
+
+    return "".join(ct)
 
 def decryptMessage(key:int, message: str):
-    raise NotImplementedError()
+    ciphertext = [["" for i in range(len(message))] for j in range(key)]
+    row = 0
+    flag = 0
+    counter = 1
+    ciphertext[0][0] = message[0]
+    for i in range(len(ciphertext)):
+        for j in range(1,len(message)):
+            if flag==0:
+                row+=1
+                if row==key-1:
+                    flag = 1
+            else:
+                row-=1
+                if row==0:
+                    flag = 0
+            if row == i:
+                ciphertext[row][j] = message[counter]
+                counter+=1
+
+    ct = []
+    flag1 = 0
+    row1 = 0
+    for i in range(len(message)):
+        ct.append(ciphertext[row1][i])
+        if flag1==0:
+            row1+=1
+            if row1==key-1:
+                flag1 = 1
+        else:
+            row1-=1
+            if row1==0:
+                flag1 = 0
+
+    return "".join(ct)
 
 def test():
     assert decryptMessage(3, encryptMessage(3, "CIPHERS ARE FUN")) == "CIPHERS ARE FUN"
