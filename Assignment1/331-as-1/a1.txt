@@ -1,0 +1,23 @@
+CMPUT 331 a1p4
+Christopher Pontikes 1499276
+
+The original ceaser cipher has 25 distinct keys
+For a1p1, there are 51 distinct keys
+For a1p2, there are 51 distinct keys
+For a1p3, there are 51^n, keys, where n is the length of the keyword. provided
+that the keyword is not longer than the message. If the length of the keyword is
+longer than the length of the message, then there are 51^m keys, where m is the length
+of the message
+
+If only accounting for number of distinct keys, part 2 is more secure than the
+original ceaser cipher. The pattern in part two is harder to decrypt than
+the original, which would make it more secure, due to the changing key
+
+Another way an attacker could decipher the message is by analyzing the letter frequency in the message
+and compare it to the standard letter frequency for the English language.
+ie. e is the most frequently used letter in the English language, so it would be
+reasonable to assume the most frequent letter in the enciphered message is actually an e
+
+This weakness would be easiest to exploit for a1p1. It would be more difficult to determine
+for a1p2 and a1p3. With an ever changing key in part 2, frequency analysis becomes more difficult,
+With a pattern of keys in part 3, and would be more difficult than in part 1.
