@@ -37,14 +37,76 @@ Author: Christopher Pontikes 1499276
 """
 
 def encryptMessage(key:int, message: str):
+    #build a set of arrays with rows equal to the number of keys and length equal to length of the message
     ciphertext = [["" for i in range(len(message))] for j in range(key)]
 
     row = 0
     flag = 0
 
+    #begin adding letters into rail fence array
     for i in range(len(message)):
+        #places current letter in the array
         ciphertext[row][i] = message[i]
 
+        #determines if we are going down the rows
+        if flag==0:
+            row+=1
+            #if we are at the bottom row, start going up
+            if row==key-1:
+                flag = 1
+        #going up the rows
+        else:
+            row-=1
+            #if we are on the top row, go down
+            if row==0:
+                flag = 0
+
+    #now create a list and append the characters by going through the array
+
+    ct = []
+    for i in range(key):
+        for j in range(len(message)):
+            ct.append(ciphertext[i][j])
+
+    #join the characters of the list together into a string
+    return "".join(ct)
+
+def decryptMessage(key:int, message: str):
+    #build a set of arrays with rows equal to the number of keys and length equal to length of the message
+    ciphertext = [["" for i in range(len(message))] for j in range(key)]
+    row = 0
+    flag = 0
+    counter = 0
+
+    for i in range(len(message)):
+            #mark the valid places we can put a character
+            ciphertext[row][i] = 0
+            #determines if we are going down the rows
+            if flag==0:
+                row+=1
+                #if we are at the bottom row, start going up
+                if row==key-1:
+                    flag = 1
+            #going up the rows
+            else:
+                row-=1
+                #if we are on the top row, go down
+                if row==0:
+                    flag = 0
+
+    #puts the characters in valid places
+    for i in range(key):
+        for j in range(len(message)):
+            if ciphertext[i][j] == 0:
+                ciphertext[i][j] = message[counter]
+                counter+=1
+
+    #appending characters to the list by going through the array in the same way as before
+    ct = []
+    flag = 0
+    row = 0
+    for i in range(len(message)):
+        ct.append(ciphertext[row][i])
         if flag==0:
             row+=1
             if row==key-1:
@@ -54,52 +116,11 @@ def encryptMessage(key:int, message: str):
             if row==0:
                 flag = 0
 
-    ct = []
-    for i in range(key):
-        for j in range(len(message)):
-            ct.append(ciphertext[i][j])
-
-    return "".join(ct)
-
-def decryptMessage(key:int, message: str):
-    ciphertext = [["" for i in range(len(message))] for j in range(key)]
-    row = 0
-    flag = 0
-    counter = 1
-    ciphertext[0][0] = message[0]
-    for i in range(len(ciphertext)):
-        for j in range(1,len(message)):
-            if flag==0:
-                row+=1
-                if row==key-1:
-                    flag = 1
-            else:
-                row-=1
-                if row==0:
-                    flag = 0
-            if row == i:
-                ciphertext[row][j] = message[counter]
-                counter+=1
-
-    ct = []
-    flag1 = 0
-    row1 = 0
-    for i in range(len(message)):
-        ct.append(ciphertext[row1][i])
-        if flag1==0:
-            row1+=1
-            if row1==key-1:
-                flag1 = 1
-        else:
-            row1-=1
-            if row1==0:
-                flag1 = 0
-
     return "".join(ct)
 
 def test():
     assert decryptMessage(3, encryptMessage(3, "CIPHERS ARE FUN")) == "CIPHERS ARE FUN"
-
+    
 from sys import flags
 
 if __name__ == "__main__" and not flags.interactive:
