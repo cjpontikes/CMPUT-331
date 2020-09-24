@@ -33,7 +33,7 @@
 """
 CMPUT 331 Assignment 2 Student Solution
 September 2020
-Author: Christopher Pontikes
+Author: Christopher Pontikes 1499276
 """
 import math
 def decryptMessage(key:list, message: str):

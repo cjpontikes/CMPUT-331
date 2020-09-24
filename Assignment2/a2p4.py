@@ -35,34 +35,26 @@ CMPUT 331 Assignment 2 Student Solution
 September 2020
 Author: Christopher Pontikes 1499276
 """
+
 import math
+from a2p3 import decryptMessage #importing the decryptMessage function
 
-def encryptMessage(key:list, message: str):
-    numRows = math.ceil(len(message)/len(key)) #calculate how many rows are required (round up)
-    counter = 0
-    ciphertext = [["" for i in range(len(key))] for j in range(numRows)] #create the array with correct number of rows and columns
-    #print(len(key))
-    #placing the characters into the array, stopping when the end of the message is reached
-    for i in range(numRows):
-        for j in range(len(key)):
-            if counter < len(message):
-                ciphertext[i][j] = message[counter]
-                counter+=1
+#function to open a file and read its contents
+def readFile(filename: str):
+    file = open(filename, encoding="utf8")
+    message = file.read()
+    file.close()
+    return message
 
+#function to create a new file and write to it
+def uploadFile(filename:str, message: str):
+    file = open(filename, 'w+')
+    file.write(message)
+    file.close()
 
-    ct = []
-    for i in range(len(key)):
-        #determine which column is added first
-        k = key[i]-1
-        for j in range(numRows):
-            ct.append(ciphertext[j][k])
+#function that combines the other two while also running the decryptMessage function
+def decryptMystery():
+    uploadFile("mystery.dec.txt", decryptMessage([8,1,6,2,10,4,5,3,7,9], readFile("mystery.txt")))
 
-    return "".join(ct)
-
-def test():
-    assert encryptMessage([2,4,1,5,3], "CIPHERS ARE FUN") == "IS HAUCREERNP F"
-
-from sys import flags
-
-if __name__ == "__main__" and not flags.interactive:
-    test()
+if __name__ == "__main__":
+    decryptMystery()
