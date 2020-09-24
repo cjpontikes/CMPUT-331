@@ -33,11 +33,32 @@
 """
 CMPUT 331 Assignment 2 Student Solution
 September 2020
-Author: <Your name here>
+Author: Christopher Pontikes 1499276
 """
+import math
 
 def encryptMessage(key:list, message: str):
-    raise NotImplementedError()
+    numRows = math.ceil(len(message)/len(key)) #calculate how many rows are required (round up)
+    counter = 0
+    ciphertext = [["" for i in range(len(key))] for j in range(numRows)] #create the array with correct number of rows and columns
+
+    #placing the characters into the array, stopping when the end of the message is reached
+    for i in range(numRows):
+        for j in range(len(key)):
+            if counter < len(message):
+                ciphertext[i][j] = message[counter]
+                counter+=1
+
+
+    ct = []
+    for i in range(len(key)):
+        #determine which column is added first
+        k = key[i]
+        #adding the correct column first
+        for j in range(numRows):
+            ct.append(ciphertext[j][k-1])
+
+    return "".join(ct)
 
 def test():
     assert encryptMessage([2,4,1,5,3], "CIPHERS ARE FUN") == "IS HAUCREERNP F"
