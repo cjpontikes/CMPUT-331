@@ -33,14 +33,42 @@
 """
 CMPUT 331 Assignment 2 Student Solution
 September 2020
-Author: <Your name here>
+Author: Christopher Pontikes
 """
-
+import math
 def decryptMessage(key:list, message: str):
-    raise NotImplementedError()
+    numRows = math.ceil(len(message)/len(key)) #calculate how many rows are required (round up)
+    counter = 0
+    ciphertext = [["" for i in range(len(key))] for j in range(numRows)] #create the array with correct number of rows and columns
+
+    #highlighting valid places in the array characters can go, accounting for when length of message
+    #and length of keyword do not divide evenly
+    for i in range(numRows):
+        for j in range(len(key)):
+            if counter < len(message):
+                ciphertext[i][j] = "0"
+                counter +=1
+
+    #placing the characters in the highlighted spots and proper columns
+    counter1 = 0
+    for i in range(len(key)):
+        k = key[i]
+        for j in range(numRows):
+            if ciphertext[j][k-1] == "0":
+                ciphertext[j][k-1] = message[counter1]
+                counter1+=1
+
+    #putting the whole thing together
+    ct = []
+    for i in range(numRows):
+        for j in range(len(key)):
+            ct.append(ciphertext[i][j])
+
+    return "".join(ct)
 
 def test():
     assert decryptMessage([2,4,1,5,3], "IS HAUCREERNP F") == "CIPHERS ARE FUN"
+
 
 from sys import flags
 
